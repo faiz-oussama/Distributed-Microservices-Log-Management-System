@@ -1,0 +1,8 @@
+# Ignore log files
+logs/
+
+# Ignore Docker-related files
+es_data/
+
+# Maven target directory
+/target
