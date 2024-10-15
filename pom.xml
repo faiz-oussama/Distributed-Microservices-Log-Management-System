@@ -14,8 +14,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -25,6 +25,26 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <!-- Add the new Elasticsearch Java API Client -->
+    <dependency>
+        <groupId>org.elasticsearch</groupId>
+        <artifactId>elasticsearch</artifactId>
+        <version>8.15.2</version>
+    </dependency>    
+    <dependency>
+    <groupId>co.elastic.clients</groupId>
+    <artifactId>elasticsearch-java</artifactId>
+    <version>8.15.2</version>
+  </dependency>
+
+    <!-- Add the Jakarta JSON dependency -->
+
+  <!-- Jackson for JSON processing -->
+  <dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.1</version>
+  </dependency>
   </dependencies>
 
   <build>
@@ -43,6 +63,10 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>
+          <configuration>
+                <source>23</source>
+                <target>23</target>
+            </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
