@@ -25,7 +25,6 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
-    <!-- Add the new Elasticsearch Java API Client -->
     <dependency>
         <groupId>org.elasticsearch</groupId>
         <artifactId>elasticsearch</artifactId>
@@ -36,15 +35,23 @@
     <artifactId>elasticsearch-java</artifactId>
     <version>8.15.2</version>
   </dependency>
-
-    <!-- Add the Jakarta JSON dependency -->
-
-  <!-- Jackson for JSON processing -->
   <dependency>
-    <groupId>com.fasterxml.jackson.core</groupId>
-    <artifactId>jackson-databind</artifactId>
-    <version>2.13.1</version>
-  </dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.17.0</version>
+    </dependency>
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-core</artifactId>
+    <version>2.19.0</version> <!-- Check for the latest version -->
+</dependency>
+<dependency>
+    <groupId>org.apache.logging.log4j</groupId>
+    <artifactId>log4j-api</artifactId>
+    <version>2.19.0</version> <!-- Check for the latest version -->
+</dependency>
+
+
   </dependencies>
 
   <build>

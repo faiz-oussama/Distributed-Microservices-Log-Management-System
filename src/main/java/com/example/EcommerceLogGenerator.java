@@ -2,11 +2,12 @@ package com.example;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Locale;
 import java.util.Random;
-import java.util.TimeZone;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +26,6 @@ public class EcommerceLogGenerator {
         "Mozilla/5.0 (Linux; Android 10; ONEPLUS A6000) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Mobile Safari/537.36",
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4380.0 Safari/537.36 Edg/89.0.759.0"
     };
-    
     private static final String[] ACTIONS = {
         "User login", "Product search", "Add to cart", "Checkout", 
         "Payment processing", "Payment failed", "Order placed", 
@@ -40,7 +40,6 @@ public class EcommerceLogGenerator {
                     String logEntry = EcommerceLogGenerator.generateLogEntry();
                     fileWriter.write(logEntry);
                     fileWriter.flush(); 
-                    EcommerceLogGenerator.logWithLevel(logEntry);
                     Thread.sleep(2000);
                 } catch (IOException e) {
                     logger.error("Error writing log entry", e);
@@ -58,7 +57,7 @@ public class EcommerceLogGenerator {
 
     public static String generateLogEntry() {
         String ipAddress = generateRandomIp();
-        String timestamp = generateRandomDate("01/Jan/2023:12:00:00 +0530", "01/Jan/2025:12:00:00 +0530");
+        String timestamp = generateRandomHttpDate("01/Jan/2023:12:00:00", "01/Jan/2025:12:00:00");
         String requestType = REQUESTS[random.nextInt(REQUESTS.length)];
         String endpoint = ENDPOINTS[random.nextInt(ENDPOINTS.length)];
         String statusCode = STATUS_CODES[random.nextInt(STATUS_CODES.length)];
@@ -93,20 +92,30 @@ public class EcommerceLogGenerator {
         return random.nextInt(256) + "." + random.nextInt(256) + "." + random.nextInt(256) + "." + random.nextInt(256);
     }
 
-    public static String generateRandomDate(String startDateStr, String endDateStr) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss Z");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
-
+    public static String generateRandomHttpDate(String startDateStr, String endDateStr) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z", Locale.ENGLISH);
+    
         try {
-            Date startDate = dateFormat.parse(startDateStr);
-            Date endDate = dateFormat.parse(endDateStr);
-
-            long randomTime = startDate.getTime() + (long) (random.nextDouble() * (endDate.getTime() - startDate.getTime()));
-            return dateFormat.format(new Date(randomTime));
-        } catch (ParseException e) {
-            logger.error("Error generating random date", e);
-            // Fallback to current date if parsing fails
-            return dateFormat.format(new Date());
+            // Parse start and end date strings into ZonedDateTime objects
+            ZonedDateTime startDate = ZonedDateTime.parse(startDateStr + " +0000", DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z", Locale.ENGLISH));
+            ZonedDateTime endDate = ZonedDateTime.parse(endDateStr + " +0000", DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z", Locale.ENGLISH));
+    
+            // Convert to epoch milliseconds
+            long startMillis = startDate.toInstant().toEpochMilli();
+            long endMillis = endDate.toInstant().toEpochMilli();
+    
+            // Generate a random timestamp within the range
+            long randomMillis = startMillis + (long) (random.nextDouble() * (endMillis - startMillis));
+    
+            // Convert the random timestamp back to ZonedDateTime in UTC
+            ZonedDateTime randomDate = ZonedDateTime.ofInstant(java.time.Instant.ofEpochMilli(randomMillis), ZoneOffset.UTC);
+    
+            // Return the formatted date string
+            return randomDate.format(formatter);
+    
+        } catch (DateTimeParseException e) {
+            logger.error("Error parsing date", e);
+            return ZonedDateTime.now(ZoneOffset.UTC).format(formatter); // Fallback to current date if parsing fails
         }
     }
 
