@@ -1,54 +1,73 @@
 package com.example;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class LogEntry {
-    private String ipAddress;
+    @JsonProperty("client_ip")
+    private String clientIp;
+
+    @JsonProperty("timestamp")
     private String timestamp;
-    private String requestType;
-    private String endpoint;
+
+    @JsonProperty("http_method")
+    private String httpMethod;
+
+    @JsonProperty("request")
+    private String request;
+
+    @JsonProperty("status_code")
     private String statusCode;
-    private String responseTime;
+
+    @JsonProperty("response_size")
+    private String responseSize;
+
+    @JsonProperty("referrer")
     private String referrer;
+
+    @JsonProperty("user_agent")
     private String userAgent;
+
+    @JsonProperty("user_id")
     private String userId;
+
+    @JsonProperty("action")
     private String action;
-    private String logType;
 
-    public LogEntry(String ipAddress, String timestamp, String requestType, String endpoint, String statusCode, String responseTime, String referrer, String userAgent, String userId, String action, String logType) {
-        this.ipAddress = ipAddress;
-        this.timestamp = timestamp;
-        this.requestType = requestType;
-        this.endpoint = endpoint;
-        this.statusCode = statusCode;
-        this.responseTime = responseTime;
-        this.referrer = referrer;
-        this.userAgent = userAgent;
-        this.userId = userId;
-        this.action = action;
-        this.logType = logType;
-    }
+    @JsonProperty("log_level")
+    private String logLevel;
 
-    public String getIpAddress() {
-        return ipAddress;
+    @JsonProperty("http_version")
+    private String httpVersion;
+
+    @JsonProperty("message")
+    private String message;
+
+    @JsonProperty("ecs")
+    private Ecs ecs;
+
+    // Getters
+    public String getClientIp() {
+        return clientIp;
     }
 
     public String getTimestamp() {
         return timestamp;
     }
 
-    public String getRequestType() {
-        return requestType;
+    public String getHttpMethod() {
+        return httpMethod;
     }
 
-    public String getEndpoint() {
-        return endpoint;
+    public String getRequest() {
+        return request;
     }
 
     public String getStatusCode() {
         return statusCode;
     }
 
-    public String getResponseTime() {
-        return responseTime;
+    public String getResponseSize() {
+        return responseSize;
     }
 
     public String getReferrer() {
@@ -67,7 +86,56 @@ public class LogEntry {
         return action;
     }
 
-    public String getLogType() {
-        return logType;
+    public String getLogLevel() {
+        return logLevel;
+    }
+
+    public String getHttpVersion() {
+        return httpVersion;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public Ecs getEcs() {
+        return ecs;
+    }
+
+    @Override
+    public String toString() {
+        return "LogEntry{" +
+                "clientIp='" + clientIp + '\'' +
+                ", timestamp='" + timestamp + '\'' +
+                ", httpMethod='" + httpMethod + '\'' +
+                ", request='" + request + '\'' +
+                ", statusCode='" + statusCode + '\'' +
+                ", responseSize='" + responseSize + '\'' +
+                ", referrer='" + referrer + '\'' +
+                ", userAgent='" + userAgent + '\'' +
+                ", userId='" + userId + '\'' +
+                ", action='" + action + '\'' +
+                ", logLevel='" + logLevel + '\'' +
+                ", httpVersion='" + httpVersion + '\'' +
+                ", message='" + message + '\'' +
+                ", ecs=" + ecs +
+                '}';
+    }
+
+    public static class Ecs {
+        @JsonProperty("version")
+        private String version;
+
+        // Getters
+        public String getVersion() {
+            return version;
+        }
+
+        @Override
+        public String toString() {
+            return "Ecs{" +
+                    "version='" + version + '\'' +
+                    '}';
+        }
     }
 }

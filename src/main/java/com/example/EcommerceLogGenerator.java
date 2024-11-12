@@ -45,7 +45,7 @@ public class EcommerceLogGenerator {
                     logger.error("Error writing log entry", e);
                 } catch (InterruptedException e) {
                     logger.error("Thread sleep interrupted", e);
-                    Thread.currentThread().interrupt(); // Restore the interrupted status
+                    Thread.currentThread().interrupt();
                 } catch (Exception e) {
                     logger.error("Unexpected error", e);
                 }
@@ -96,26 +96,17 @@ public class EcommerceLogGenerator {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z", Locale.ENGLISH);
     
         try {
-            // Parse start and end date strings into ZonedDateTime objects
             ZonedDateTime startDate = ZonedDateTime.parse(startDateStr + " +0000", DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z", Locale.ENGLISH));
             ZonedDateTime endDate = ZonedDateTime.parse(endDateStr + " +0000", DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z", Locale.ENGLISH));
-    
-            // Convert to epoch milliseconds
             long startMillis = startDate.toInstant().toEpochMilli();
             long endMillis = endDate.toInstant().toEpochMilli();
-    
-            // Generate a random timestamp within the range
             long randomMillis = startMillis + (long) (random.nextDouble() * (endMillis - startMillis));
-    
-            // Convert the random timestamp back to ZonedDateTime in UTC
             ZonedDateTime randomDate = ZonedDateTime.ofInstant(java.time.Instant.ofEpochMilli(randomMillis), ZoneOffset.UTC);
-    
-            // Return the formatted date string
             return randomDate.format(formatter);
     
         } catch (DateTimeParseException e) {
             logger.error("Error parsing date", e);
-            return ZonedDateTime.now(ZoneOffset.UTC).format(formatter); // Fallback to current date if parsing fails
+            return ZonedDateTime.now(ZoneOffset.UTC).format(formatter);
         }
     }
 
