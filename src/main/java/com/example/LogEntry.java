@@ -16,7 +16,7 @@ public class LogEntry {
     private String request;
 
     @JsonProperty("status_code")
-    private String statusCode;
+    private int statusCode;
 
     @JsonProperty("response_size")
     private String responseSize;
@@ -62,7 +62,7 @@ public class LogEntry {
         return request;
     }
 
-    public String getStatusCode() {
+    public int getStatusCode() {
         return statusCode;
     }
 
