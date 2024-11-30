@@ -117,4 +117,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 - [Jetty](https://www.eclipse.org/jetty/) for serving web content and handling WebSocket connections.
 
 ## Contact
-For any inquiries or support, please contact [your.email@example.com](mailto:your.email@example.com).
+For any inquiries or support, please contact [your.email@example.com](mailto:faizouss123@gmail.com).
