@@ -7,7 +7,53 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <title>Real Time Logs</title>
+    <style>
+        .stream-status {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .status-active {
+            background-color: #4CAF50;
+        }
+        .status-paused {
+            background-color: #FFA500;
+        }
+        .stream-controls {
+            display: flex;
+            gap: 10px;
+        }
+        .control-btn {
+            padding: 5px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+        }
+        .control-btn:hover {
+            opacity: 0.8;
+        }
+        .pause-btn {
+            background-color: #FFA500;
+        }
+        .clear-btn {
+            background-color: #f44336;
+        }
+    </style>
 </head>
 <body>
     <header class="navbar">
@@ -43,6 +89,17 @@
             <h1>Logs Details</h1>
             <p>Here is a table that provides insights into logs details.</p>
         </div>
+        <div class="stream-status">
+            <div>
+                <span class="status-indicator status-active" id="statusDot"></span>
+                <span id="statusText">Streaming logs in real-time</span>
+            </div>
+            <div class="stream-controls">
+                <button class="control-btn" id="startBtn">Start</button>
+                <button class="control-btn pause-btn" id="pauseBtn">Pause</button>
+                <button class="control-btn clear-btn" id="clearBtn">Clear</button>
+            </div>
+        </div>
         <div class="filter-container">
             <div class="date-input-wrapper">
                 <input type="date" id="start-date" class="date-input" name="start-date">
@@ -56,7 +113,7 @@
         <div class="wrap-table100">
             <div class="table100">
                 <table>
-                    <thead>
+                    <thead style="position: sticky; top: 0;">
                         <tr class="table100-head">
                             <th class="column1">Client IP</th>
                             <th class="column2">Timestamp</th>
@@ -75,4 +132,4 @@
     </div>
 </body>
 <script src="logVis.js"></script>
-</html> 
+</html>

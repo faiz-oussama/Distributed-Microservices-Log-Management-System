@@ -358,6 +358,22 @@
     width: 1170px;
   }
   
+  .table100 {
+    overflow-y: auto;
+    height: 400px; /* Adjust the height as needed */
+    display: block;
+  }
+  .table100 thead, .table100 tbody, .table100 tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
+  .table100 thead {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 1;
+  }
   table {
     border-spacing: 1;
     border-collapse: collapse;
@@ -454,7 +470,68 @@
     padding-right: 62px;
   }
   
-  
+  /* Log level styles */
+  .warn span::before {
+    content: '\26A0'; /* Warning icon */
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-color: yellow;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin-right: 8px;
+}
+.error span::before {
+    content: '\2716'; /* Error icon */
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin-right: 8px;
+}
+.info span::before {
+    content: '\2139'; /* Info icon */
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-color: green;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    margin-right: 8px;
+}
+  .warn span {
+    color: rgba(255, 144, 16, 0.733);
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .error span {
+    color: red;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  .info span {
+    color: green;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
   @media screen and (max-width: 992px) {
     table {
       display: block;

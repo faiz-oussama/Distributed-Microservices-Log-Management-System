@@ -1,11 +1,16 @@
-function fetchLogsData() {
-    fetch('logs.json')
-        .then(response => response.json())
-        .then(data => {
-            const tableBody = document.querySelector('.table100 tbody');
-            tableBody.innerHTML = '';
+let currentIndex = 0;
+const batchSize = 1;
 
-            data.forEach(log => {
+function fetchLogsData() {
+    $.ajax({
+        url: 'logs.json',
+        method: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            const tableBody = document.querySelector('.table100 tbody');
+            const logsToDisplay = data.slice(currentIndex, currentIndex + batchSize);
+
+            logsToDisplay.forEach(log => {
                 const row = document.createElement('tr');
 
                 const cellIP = document.createElement('td');
@@ -29,8 +34,10 @@ function fetchLogsData() {
                 cellAction.classList.add('column5');
 
                 const cellLogLevel = document.createElement('td');
-                cellLogLevel.textContent = log.log_level || 'N/A';
-                cellLogLevel.classList.add('column6');
+                const logLevelSpan = document.createElement('span');
+                logLevelSpan.textContent = log.log_level || 'N/A';
+                logLevelSpan.classList.add(log.log_level.toLowerCase());
+                cellLogLevel.appendChild(logLevelSpan);
 
                 row.appendChild(cellIP);
                 row.appendChild(cellTimestamp);
@@ -39,12 +46,30 @@ function fetchLogsData() {
                 row.appendChild(cellAction);
                 row.appendChild(cellLogLevel);
 
-                tableBody.appendChild(row);
+                // Apply color based on log level
+                if (log.log_level === 'WARN') {
+                    row.classList.add('warn');
+                } else if (log.log_level === 'ERROR') {
+                    row.classList.add('error');
+                } else if (log.log_level === 'INFO') {
+                    row.classList.add('info');
+                }
+
+                tableBody.prepend(row);
             });
-        })
-        .catch(error => {
+
+            currentIndex += batchSize;
+            if (currentIndex >= data.length) {
+                currentIndex = 0; // Reset to start if end is reached
+            }
+        },
+        error: function(xhr, status, error) {
             console.error('Error loading logs data:', error);
-        });
+        }
+    });
 }
+
+// Polling interval set to 2 seconds
+setInterval(fetchLogsData, 2000);
 
 document.addEventListener('DOMContentLoaded', fetchLogsData);
