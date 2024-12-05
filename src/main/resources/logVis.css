@@ -359,8 +359,8 @@
   }
   
   .table100 {
-    overflow-y: auto;
-    height: 400px; /* Adjust the height as needed */
+    overflow-y: hidden;
+    height: 1000px; /* Adjust the height as needed */
     display: block;
   }
   .table100 thead, .table100 tbody, .table100 tr {
@@ -375,12 +375,12 @@
     z-index: 1;
   }
   table {
+    width: 100%;
+    overflow: hidden; /* Prevents scrolling */
     border-spacing: 1;
     border-collapse: collapse;
     background: white;
     border-radius: 10px;
-    overflow: hidden;
-    width: 100%;
     margin: 0 auto;
     position: relative;
   }
@@ -532,6 +532,14 @@
     width: 100%;
   }
 
+  /* Fix table header */
+  .table100 thead {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 1;
+  }
+  
   @media screen and (max-width: 992px) {
     table {
       display: block;
@@ -607,5 +615,11 @@
     .container-table100 {
       padding-left: 15px;
       padding-right: 15px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    table {
+      font-size: 12px; /* Adjust font size for smaller screens */
     }
   }
